@@ -1,5 +1,5 @@
-
 def quicksort(ls):
+'''Quicksort using list comprehention, not optimal at all!'''
    if len(ls) < 2 : return ls
    else:
       return   quicksort([ smaller for smaller in ls[1:] if smaller <= ls[0] ]) + \
