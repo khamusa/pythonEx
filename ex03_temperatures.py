@@ -11,6 +11,8 @@ corresponding temperatures in the other scales, the list must be sorted on the t
 and the scale must be specified (hint: use a tuple).
 """
 
+from operator import itemgetter
+
 id = lambda s: s
 to_kelvin_from = {
                "Celsius": lambda s: s + 273.15,
@@ -38,7 +40,7 @@ def conversions(grades, scale):
    for key in from_kelvin_to.keys():
       in_kelvin = to_kelvin_from[scale](grades)
       ls.append(( from_kelvin_to[key](in_kelvin), key))
-   return sorted(ls, key = lambda s: s[0])
+   return sorted(ls, key = itemgetter(0)) #itemgetter from operator module
       
    
 print(conversions(20, "Celsius"))
