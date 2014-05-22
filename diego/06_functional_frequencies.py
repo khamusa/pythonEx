@@ -31,4 +31,4 @@ def count_frequencies_for_line(f,mem):
     print(mem)
 
 
-count_frequencies("longfile")
+count_frequencies("shortfile")
