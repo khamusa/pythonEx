@@ -45,15 +45,19 @@ print(sum_of_figures(2 ** 15))
 
 # 4 - using recursion won't work with such depth calculation, since tail recursion
 # is not optimized
-def first_fib_term_with_n_figures(a, b, n):
+def first_fib_term_with_n_figures(n):
    '''Calculate the first term in the Fibonacci sequence to contain 1000 digits.'''
-   if( len(str(b)) >= n ):
-      return b
-   else:
-      return first_fib_term_with_n_figures(b, a+b, n)
+
+   def aux(a, b):
+      if( len(str(b)) >= n ):
+         return b
+      else:
+         return aux(b, a+b)
+
+   return aux(1, 1)
 
 print("Ex 4:")
-print(first_fib_term_with_n_figures(1, 1, 20))   
-# ERROR: MAXIMUM RECURSION DEPTH print(first_fib_term_with_n_figures(1, 1, 1000))   
+print(first_fib_term_with_n_figures(20))   
+# ERROR: MAXIMUM RECURSION DEPTH print(first_fib_term_with_n_figures(1000))   
 
 
