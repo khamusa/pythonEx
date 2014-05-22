@@ -60,73 +60,80 @@ GUO
 1 = execute
 """
 
-perms = [
+perms = {
    # group
-   [
-      (1, stat.S_IRGRP),
-      (2, stat.S_IWGRP),
-      (4, stat.S_IXGRP)
-   ],
+   0 : {
+      0: 0,
+      1: stat.S_IXGRP,
+      2: stat.S_IWGRP,
+      4: stat.S_IRGRP,
+      5: stat.S_IXGRP | stat.S_IRGRP,
+      6: stat.S_IWGRP | stat.S_IRGRP,
+      7: stat.S_IXGRP | stat.S_IRGRP | stat.S_IWGRP 
+   },
    # user
-   [
-      (1, stat.S_IRUSR),
-      (2, stat.S_IWUSR),
-      (4, stat.S_IXUSR)
-   ],
+   1 : {
+      0: 0,
+      1: stat.S_IXUSR,
+      2: stat.S_IWUSR,
+      4: stat.S_IRUSR,
+      5: stat.S_IXUSR | stat.S_IRUSR,
+      6: stat.S_IWUSR | stat.S_IRUSR,
+      7: stat.S_IXUSR | stat.S_IRUSR | stat.S_IWUSR 
+   } ,
    # other
-   [
-      (1, stat.S_IROTH),
-      (2, stat.S_IWOTH),
-      (4, stat.S_IXOTH)
-   ]
-]
+   2 : {
+      0: 0,
+      1: stat.S_IXOTH,
+      2: stat.S_IWOTH,
+      4: stat.S_IROTH,
+      5: stat.S_IXOTH | stat.S_IROTH,
+      6: stat.S_IWOTH | stat.S_IROTH,
+      7: stat.S_IXOTH | stat.S_IROTH | stat.S_IWOTH 
+   }
+}
 
+# Add symbolic keys too, to the perms hash, referencing other already existing objects
+for perm_category in perms.keys():
+   perms[perm_category]["r"] = perms[perm_category][4]
+   perms[perm_category]["w"] = perms[perm_category][2]
+   perms[perm_category]["x"] = perms[perm_category][1]
+
+perms["g"] = perms[0]
+perms["u"] = perms[1]
+perms["o"] = perms[2]
+
+
+# Handle a numeric permission string (ex. 777) - No validation is performed
 def chmod_numerical(filename, perm_string):
-   index = 0 #cycle through group, user, other
    final_privs = 0
-   for perm_number in perm_string:
-      perm_number = int(perm_number)
+   for guo_index, perm_number in enumerate(perm_string):
+      final_privs |= perms[guo_index][int(perm_number)]
 
-      for number, stat in perms[index]:
-         if((number & perm_number) != 0):
-            print("Aggiungo {} - {} - {}".format(index, number, perm_number))
-            final_privs |= stat
-      index += 1
    os.chmod(filename, final_privs)
 
+# Handle a symbolic permssion string - No validation is performed
 def chmod_symbolic(filename, perm_string):
-   # perm string will be on the format [guo][+=-][rwx]
-   # sembra funzionare, manca estendere al caso in cui nei caratteri
-   # guo vengano passati piu caratteri (per ora funziona solo con uno)
-   symbolic_perm_cat = {
-      "g": perms[0],
-      "u": perms[1],
-      "o": perms[2]
-   }
-
-   symbolic_perm = {
-      "r" : 0,
-      "w" : 1,
-      "x" : 2
-   }
-
-   guo, operation, assigned_perms = re.split("(=|\+|-)", perm_string)
-   category = symbolic_perm_cat[guo]
+   guos, operation, assigned_perms = re.split("(=|\+|-)", perm_string)
 
    to_assign = 0
-   for char in assigned_perms:
-      to_assign |= category[ symbolic_perm[char] ][1]
+   # cycle on every category letter "g", "u", "o" - before the operator
+   for guo in guos:
+      category = perms[guo]
+      
+      for char in assigned_perms:
+         to_assign |= category[ char ]
 
+   # Decide how to_assign will be related to the current file permissions
    current_file_perms = os.stat(filename).st_mode
-
-   if( "+" in operation ):
+   if( "+" == operation ):
       to_assign |= current_file_perms # OR (just add)
-   elif ( "-" in operation ):
-      to_assign ^= current_file_perms # XOR
+   elif ( "-" == operation ):
+      to_assign = current_file_perms & ~to_assign # to_assign & !current_file_perms
 
    os.chmod(filename, to_assign)
 
-
+# Main function, entry point - No validation is performed
 def chmod(filename, perm_string):
    if(perm_string.isdigit()):
       chmod_numerical(filename, perm_string)
