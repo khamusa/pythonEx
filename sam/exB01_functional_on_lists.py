@@ -60,14 +60,14 @@ print(first_fib_term_with_n_figures(20))
 def first_fib_term_with_n_figures2(n):
    '''Calculate the first term in the Fibonacci sequence to contain 1000 digits using generators.'''
 
-   def make_fibs():
+   def make_fibs(limit = 10000):
       a = 0
       b = 1
-      while True:
+      while limit == None or b < limit:
          yield b
          a, b = b, a+b
 
-   fibogen = make_fibs()
+   fibogen = make_fibs(None)
    for fibnum in fibogen:
       if ( len(str(fibnum)) >= n ):
          return fibnum
