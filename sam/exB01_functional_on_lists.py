@@ -17,10 +17,7 @@ def divisible_by_1_to(n):
    '''Calculate the smallest number divisible by each of the numbers 1 to n (included).'''
    def gcd(a, b):
       '''Calculates the greatest common divisor of two numbers (Euclid's)'''
-      if not b:
-         return a
-      else: 
-         return gcd(b, a-b*(a//b))
+      return (not b and a) or gcd(b, a-b*(a//b))
 
    def lcm(a, b): 
       ''' Calculates the least common multiple of two numbers '''
@@ -49,15 +46,31 @@ def first_fib_term_with_n_figures(n):
    '''Calculate the first term in the Fibonacci sequence to contain 1000 digits.'''
 
    def aux(a, b):
-      if( len(str(b)) >= n ):
-         return b
-      else:
-         return aux(b, a+b)
+      return (len(str(b)) >= n and b) or aux(b, a+b)
 
    return aux(1, 1)
 
 print("Ex 4:")
 print(first_fib_term_with_n_figures(20))   
+
+# import sys
+#sys.setrecursionlimit(1500)
 # ERROR: MAXIMUM RECURSION DEPTH print(first_fib_term_with_n_figures(1000))   
 
+def first_fib_term_with_n_figures2(n):
+   '''Calculate the first term in the Fibonacci sequence to contain 1000 digits using generators.'''
 
+   def make_fibs():
+      a = 0
+      b = 1
+      while True:
+         yield b
+         a, b = b, a+b
+
+   fibogen = make_fibs()
+   for fibnum in fibogen:
+      if ( len(str(fibnum)) >= n ):
+         return fibnum
+
+print("Ex 4 with generators:")
+print(first_fib_term_with_n_figures2(1000))  
