@@ -15,23 +15,18 @@ Find and use a function in module calendar to determine which day of the week Ju
 import calendar
 import datetime
 
-def next_leap():
-   year = datetime.datetime.today().year
-   while not calendar.isleap(year):
-      year += 1
-   return year
+class CalFun:
+   def next_leap(self, year=datetime.datetime.now().year):
+      while not calendar.isleap(year):
+         year += 1
 
-def leap_years(start, end):
-   return [x for x  in range(start, end + 1) if calendar.isleap(x)]
+      return year
 
-def count_leaps(start, end):
-   return len(leap_years(start, end))
-   
-
-
+   def leap_years(self, start=datetime.datetime.now().year, end=(datetime.datetime.now().year + 50)):
+      return [x for x in range(start, end + 1) if calendar.isleap(x) ]
 
 if __name__ == '__main__':
-   print(next_leap())
-   print(count_leaps(2000, 2050))
-   print(calendar.day_name[calendar.weekday(2016, 7, 29)])
-
+   cf = CalFun()
+   print("Next leap year will be ", cf.next_leap())
+   print("Leap years between 2000 and 2050:", cf.leap_years(2000, 2050))
+   print("July 29th 2016 is a", calendar.day_name[datetime.date(2016, 7, 29).weekday()])
