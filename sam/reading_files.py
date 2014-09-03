@@ -57,3 +57,56 @@ and it will be automatically closed!
       writable=f.writable(),
       closed=f.closed
    ))
+
+"""
+Okay, we've been consuming a lot of literature lately, now let's start writing some!
+"""
+
+import json
+poem = ("Subi", ("no pé de manga\n"), "Só para te ver\n", ("Logo", "que", "te", "vi"), "eu", "desci")
+print("Let's save the following poem:", poem)
+
+"""
+First, we open a new file in writing mode 'w'
+"""
+with open("literature.masterpiece", 'w') as f:
+   """
+   Now we convert our complicated poem in json poetry and write it
+   """
+   f.write(json.dumps(poem))
+
+"""
+Now let's read our poem
+"""
+with open("literature.masterpiece", 'r') as f:
+   jsonpoem = f.read()
+
+print(json.loads(jsonpoem))
+
+"""
+Note that we've used the 's' version of the methods dump and load
+There is also the non-'s' version:
+   - json.dump(to_save_object, fileobject) - serializes the object and saves it
+      to fileobject (representing an open file in reading mode)
+   - json.load(fileobject) - reads from an open file in reading mode.
+
+   Example:
+"""
+
+with open("literature.masterpiece", 'r') as f:
+   print(json.load(f))
+
+"""
+This simple serialization technique can handle lists and dictionaries, but 
+serializing arbitrary class instances in JSON requires a bit of extra effort. 
+The reference for the json module contains an explanation of this.
+
+See also pickle - the pickle module
+Contrary to JSON, pickle is a protocol which allows the serialization of 
+arbitrarily complex Python objects. As such, it is specific to Python and 
+cannot be used to communicate with applications written in other languages. 
+It is also insecure by default: deserializing pickle data coming from an 
+untrusted source can execute arbitrary code, if the data was crafted by a 
+skilled attacker.
+"""
+
