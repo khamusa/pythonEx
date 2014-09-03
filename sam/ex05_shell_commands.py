@@ -109,7 +109,7 @@ def chmod_numerical(filename, perm_string):
 
    os.chmod(filename, final_privs)
 
-# Handle a symbolic permssion string - No validation is performed
+# Handle a symbolic permission string - No validation is performed
 def chmod_symbolic(filename, perm_string):
    guos, operation, assigned_perms = re.split("(=|\+|-)", perm_string)
 
@@ -137,6 +137,9 @@ def chmod(filename, perm_string):
    else:
       chmod_symbolic(filename, perm_string)
 
+# If this MODULE have been executed by calling python3 modulename <args>, the
+# variable __name__ will have value '__main__'. Instead, if this module was imported
+# by another script, __name__ will equal the name of this imported module.
 if __name__ == '__main__':
    cat(argv[1])
    chmod(argv[1], argv[2])

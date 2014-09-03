@@ -18,42 +18,34 @@ Note that Python's dictionaries do not preserve the insertion order neither it i
 some way.
 """
 
-import functools
-alkaline_earth_metals = [ 
-                           ("beryllium", 4), 
-                           ("magnesium", 12), 
-                           ("calcium", 20), 
-                           ("strontium", 38), 
-                           ("barium", 56), 
-                           ("radium", 88)
-                        ]
+from operator import itemgetter
+alkaline_earth_metals = [
+   12, 20, 4, 38, 56, 88
+]
 
-my_dict = dict(alkaline_earth_metals)
+alkaline_dict = {    "beryllium": 4, "magnesium": 12, "calcium" : 20, "strontium" : 38,
+            "barium": 56, "radium" : 88
+            } 
 
-noble_gases = { "helium": 2, "neon": 10, "argon": 18, 
-"krypton": 36, "xenon": 54, "radon": 86 }
+noble_gases = {  "helium": 2, "neon": 10, "argon": 18, 
+            "krypton": 36, "xenon": 54, "radon": 86
+            }
 
-full_dict = dict(list(my_dict.items()) + list(noble_gases.items()))
+# If this MODULE have been executed by calling python3 modulename <args>, the
+# variable __name__ will have value '__main__'. Instead, if this module was imported
+# by another script, __name__ will equal the name of this imported module.
+if __name__ == '__main__':
+   # Highest atomic number
+   print(sorted(alkaline_earth_metals)[-1])
+   alkaline_earth_metals.sort()
+   print(alkaline_earth_metals)
+
+   alkaline_dict.update(noble_gases)
+   names = list(alkaline_dict.items())
+   names.sort(key = itemgetter(1) )
+   print(names)
 
 
-def highest_alkaline():
-   bigger = 0
-   for _, number in alkaline_earth_metals:
-      if(number > bigger):
-         bigger = number
-   return bigger
-
-
-def sort_metals(ls):
-   def extract(tuple):
-      return tuple[1]
-   return sorted(ls, key=extract)
-
-print(highest_alkaline())
-
-print(sort_metals(alkaline_earth_metals))
-
-print(sort_metals(full_dict.items()))
 
 
 

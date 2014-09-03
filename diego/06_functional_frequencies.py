@@ -24,7 +24,7 @@ def check_words(words,index,mem):
 def count_frequencies_for_line(f,mem,counter):
   line = f.readline()
   if( not line == '' ):
-    words = re.split("\W+",line)
+    words = re.split("\W+",line) # suggerimento di samu: usare findall invece di split :)
     del words[-1] # remove last item
     counter += len(words)
     mem   = check_words(words,0,mem)

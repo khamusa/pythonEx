@@ -1,0 +1,11 @@
+
+1 - 
+"This means that we can write
+some rather odd things—for example, we can increment an integer, i, using the
+expression i += True. Naturally, the correct way to do this is i += 1."
+
+	What's the purpose of having True to evaluate to 1? The only context I can think of it being
+	useful is for handling boolean values in databases as integers (RoR does that) xD (But it's pretty
+	LOLLISH)
+
+2 - pow(x, y, z) A faster alternative to (x ** y) % z  -> Wooot?

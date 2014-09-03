@@ -30,11 +30,14 @@ def square(size, fill = 0):
 
 def transpose(a):
    return   [
-               [  a[col][row]
-                  for col in range(0, n_rows(a))
+               [  row[i]
+                  for row in a
                ]
-               for row in range(0, n_cols(a))
+               for i in range(0, n_cols(a))
             ]
+
+def transpose2(a):
+   return list(map(lambda s: list(s), zip(*a)))
 
 def multiply(a, b):
    '''Assumes a and b are well formed matrixes as list of lists'''
@@ -78,3 +81,6 @@ pm(multiply(a, b))
 print(" Transpose:")
 pm(a)
 pm(transpose(a))
+
+print(" Transpose 2:")
+pm(transpose2(a))

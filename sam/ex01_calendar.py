@@ -25,6 +25,9 @@ class CalFun:
    def leap_years(self, start=datetime.datetime.now().year, end=(datetime.datetime.now().year + 50)):
       return [x for x in range(start, end + 1) if calendar.isleap(x) ]
 
+# If this MODULE have been executed by calling python3 modulename <args>, the
+# variable __name__ will have value '__main__'. Instead, if this module was imported
+# by another script, __name__ will equal the name of this imported module.
 if __name__ == '__main__':
    cf = CalFun()
    print("Next leap year will be ", cf.next_leap())
