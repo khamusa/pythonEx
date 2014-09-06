@@ -9,3 +9,8 @@ expression i += True. Naturally, the correct way to do this is i += 1."
 	LOLLISH)
 
 2 - pow(x, y, z) A faster alternative to (x ** y) % z  -> Wooot?
+
+
+Cool:
+For a Pythonista, encapsulation is not the inability of seeing internals of classes, but the possibility of avoiding to look at it. I mean, encapsulation is the property of a component which allows it to be used without the user being concerned about the internal details. If you can use a component without bothering yourself about its implementation, then it is encapsulated (in the opinion of a Python programmer).
+More about encapsulation / hide and seek:http://stackoverflow.com/questions/7456807/python-name-mangling-when-in-doubt-do-what
