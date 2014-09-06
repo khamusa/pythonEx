@@ -57,6 +57,63 @@ else:    ## it must follow all except clauses, last!
   f.close()
 
 
+""" Assigning the caught exception to a varible allows us to retrieve the
+    arguments with wich the exception was originally raised: """
+try:
+   raise Exception('spam', 'eggs')  # raising with arguments
+except Exception as inst:
+   print(type(inst))    # the exception instance
+   print(inst.args)     # arguments stored in .args
+   print(inst)          # __str__ allows args to be printed directly,
+                        # but may be overridden in exception subclasses
+   x, y = inst.args     # unpack args
+   print('x =', x) # spam
+   print('y =', y) # eggs
+
+
+""" Custom exceptions Exceptions should typically be derived from the Exception
+class, either directly or indirectly. For example: """
+
+class MyError(Exception):
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
+try:
+    raise MyError(2*2)
+except MyError as e:
+    print('My exception occurred, value:', e.value)
+
+""" 
+In this example, the default __init__() of Exception has been overridden.
+The new behavior simply creates the value attribute. This replaces the default
+behavior of creating the args attribute. 
+"""
+
+""" Finally clause """
+
+def divide(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print("division by zero!")
+    else:
+        print("result is", result)
+    finally:
+        print("executing finally clause")
+
+"""
+>>> divide(2, 1)
+result is 2.0
+executing finally clause
+>>> divide(2, 0)
+division by zero!
+executing finally clause
+>>> divide("2", "1")
+executing finally clause
+"""
+
+
 """
 5.4. Exception hierarchy¶
 The class hierarchy for built-in exceptions is:
