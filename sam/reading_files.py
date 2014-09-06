@@ -84,7 +84,7 @@ with open("literature.masterpiece", 'r') as f:
 print(json.loads(jsonpoem))
 
 """
-Note that we've used the 's' version of the methods dump and load
+Note that we've used the 's' (stands for string) version of the methods dump and load
 There is also the non-'s' version:
    - json.dump(to_save_object, fileobject) - serializes the object and saves it
       to fileobject (representing an open file in reading mode)
