@@ -39,7 +39,7 @@ class PositiveValue2():
    data = WeakKeyDictionary()
 
    def __get__(self, instance, owner = None):
-      print("Getting value {} inst: {} owner: {}".format(self.data[instance], instance, owner))
+      print("Getting value {} inst: {} owner: {}".format(self.data.get(instance), instance, owner))
       return self.data.get(instance)
 
    def __set__(self, instance, value):
