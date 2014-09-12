@@ -17,6 +17,9 @@ class MathApproximator:
    def __init__(self, approx = 3):
       self.target_precision = approx
 	
+   def to_radians(degrees):
+      return degrees * math.pi / 180
+
    def step_two_factorial(self, index = 1):
       if index not in [1, 2]:
          raise ValueError("You may only initialize the stepping factorial with 1 or 2")
@@ -36,10 +39,15 @@ class MathApproximator:
       for i in range(1, self.target_precision + 1):
          index, fact    = next(fact_generator)
          sign           = sign_for_sin(i)
+         print("Generating: index {}, fact {}, sign {}".format(index, fact, sign))
+         def lamb(x):
+            print("Summing {} * {} ** {}) / {}".format(sign, x , index, fact))
+            return (sign * x ** index) / fact
 
-         yield lambda x: (sign * x ** index) / fact
+         yield lamb
 
    def gimme_sin2(self, num):
+      num                      = MathApproximator.to_radians(num)
       generator                = self.sin_lambda_generator()
 
 
@@ -47,21 +55,17 @@ class MathApproximator:
       # senza, usando il generatore direttamente al loop for sotto,
       # funziona
       # con la comprehention tutti gli oggetti della lista calcolano la STESSA cosa
-      lambdass = [ i for i in generator ]
 
-      print(type(lambdass))
-      print( lambdass[0] is lambdass[1] )
-      print( lambdass[0](1) == lambdass[0](2) )
 
       res = 0
-      for f in lambdass:
-         print(f(num))
+      for f in generator:
          res += f(num)
 
       return res
 
    def gimme_sin(self, num):
-      generator         = self.step_two_factorial(1)
+      num                      = MathApproximator.to_radians(num)
+      generator                = self.step_two_factorial(1)
       sign_for_sin             = lambda index: -1 if index % 2 == 0 else 1
 
       res = 0

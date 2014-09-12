@@ -36,9 +36,13 @@ def sum_of_figures(number):
    '''Calculate the sum of the figures of number '''
    return reduce(lambda s, c: int(s) + int(c), str(number))
 
+def sum_of_figures2(number):
+   return sum([int(char) for char in str(number)])
+
 print("Ex 3:")
 print(sum_of_figures(2 ** 1000))
 print(sum_of_figures(2 ** 15))
+assert(sum_of_figures(2**15) == sum_of_figures2(2**15))
 
 # 4 - using recursion won't work with such depth calculation, since tail recursion
 # is not optimized
@@ -54,7 +58,7 @@ print("Ex 4:")
 print(first_fib_term_with_n_figures(20))   
 
 # import sys
-#sys.setrecursionlimit(1500)
+# sys.setrecursionlimit(1500)
 # ERROR: MAXIMUM RECURSION DEPTH print(first_fib_term_with_n_figures(1000))   
 
 def first_fib_term_with_n_figures2(n):
