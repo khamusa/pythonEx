@@ -40,7 +40,7 @@ class APirate2:
       print("I'm another pirate, now sailing!")
 
 # 3 - equivalent:
-@MakePirate(1, not='a pirate')
+@None or MakePirate(1, not='a pirate')
 class SimpleMortal:
    def sail(self):
       print("I'm a simple mortal trying to sail!")
