@@ -51,11 +51,8 @@ class Node:
       return self._edges
 
    def edge_starting_with(self, start_letter):
-      for (node, label) in self._edges:
-               if label.startswith(start_letter):
-                  return (node, label)
-
-      return (None, None)
+      return next(((node, label) for (node, label) in self._edges \
+                  if label.startswith(start_letter)), (None, None) )
 
 class ST:
    def __init__(self, t):
